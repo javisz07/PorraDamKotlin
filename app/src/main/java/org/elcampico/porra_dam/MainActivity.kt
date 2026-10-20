@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -72,7 +74,7 @@ fun PantallaBienvenida(modifier: Modifier = Modifier) {
 
         Column(modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 80.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Bottom) {
+            .padding(bottom = 70.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Bottom) {
             Column() {
                 Row{
                     Text("Porra",
@@ -97,14 +99,15 @@ fun PantallaBienvenida(modifier: Modifier = Modifier) {
             }
             Card(Modifier
                 .width(350.dp)
-                .height(300.dp)
+                .height(290.dp)
                 .padding(top = 10.dp),
                 shape = RoundedCornerShape(20.dp) //redondear el card
 
                 ) {
                 Column(modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 20.dp, vertical = 20.dp)
+                    .padding(horizontal = 20.dp, vertical = 20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                     Column(modifier = Modifier
                         .padding(bottom = 15.dp)
@@ -164,27 +167,29 @@ fun PantallaBienvenida(modifier: Modifier = Modifier) {
                             )
                         }
                     }
-                    Row(modifier = Modifier
-                        .padding(top = 20.dp)
-                        .fillMaxWidth()
-                        .height(55.dp)
-                        .background(color = Color.Black, shape = RoundedCornerShape(40.dp))
-                        .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(40.dp)),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text("Entrar en la porra",
-                            fontFamily = Grotesk,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.White,
-                            modifier = Modifier.padding(horizontal = 10.dp)
-                        )
-                        Icon(
-                            painter = painterResource(R.drawable.ic_flecha),
-                            contentDescription = null,
-                            modifier = Modifier.size(30.dp),
-                            tint = Color.White
-                        )
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Black
+                            ),
+                        modifier = Modifier.padding(top = 20.dp).height(60.dp).fillMaxWidth(),
+
+                        ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("Entrar en la porra",
+                                fontFamily = Grotesk,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 18.sp,
+                                color = Color.White,
+                                modifier = Modifier.padding(horizontal = 10.dp)
+                            )
+                            Icon(
+                                painter = painterResource(R.drawable.ic_flecha),
+                                contentDescription = null,
+                                modifier = Modifier.size(30.dp),
+                                tint = Color.White
+                            )
+                        }
                     }
                 }
             }
