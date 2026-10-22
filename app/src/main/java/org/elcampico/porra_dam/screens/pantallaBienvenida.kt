@@ -1,6 +1,5 @@
 package org.elcampico.porra_dam.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -23,150 +22,165 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.elcampico.porra_dam.R
+import org.elcampico.porra_dam.ui.components.FondoPantalla
 import org.elcampico.porra_dam.ui.theme.Grotesk
 
 @Composable
-fun PantallaBienvenida(modifier: Modifier = Modifier) {
-    return Box(Modifier.fillMaxSize()) {
-
-        Image(
-            painter = painterResource(R.drawable.fondo),
-            contentDescription = null, // decorativa
-            contentScale = ContentScale.Crop, // llena y recorta
-            modifier = Modifier.matchParentSize() // tamaño del Box
-        )
-        val scrim = Brush.verticalGradient(
-            listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f))
-        )
-        Box(Modifier
-            .matchParentSize()
-            .background(scrim))
-
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 70.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Bottom) {
-            Column() {
-                Row{
-                    Text("Porra",
+fun PantallaBienvenida(
+    modifier: Modifier = Modifier,
+) {
+    FondoPantalla(Modifier.fillMaxSize()) {
+        Box() {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 70.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                Column() {
+                    Row {
+                        Text(
+                            "Porra",
+                            color = Color(0xFFdfe6df),
+                            fontFamily = Grotesk, fontSize = 60.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                        )
+                        Text(
+                            "DAM",
+                            color = Color(0xFFb8f2d6),
+                            fontFamily = Grotesk,
+                            fontSize = 60.sp,
+                            modifier = Modifier.padding(horizontal = 15.dp),
+                            fontWeight = FontWeight.ExtraBold,
+                        )
+                    }
+                    Text(
+                        "Pronostica los partidos de cada jornada \ny compite con tu clase \n¿Quien acertará más?",
                         color = Color(0xFFdfe6df),
-                        fontFamily = Grotesk, fontSize = 60.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                    )
-                    Text("DAM",
-                        color = Color(0xFFb8f2d6),
-                        fontFamily = Grotesk,
-                        fontSize = 60.sp,
-                        modifier = Modifier.padding(horizontal = 15.dp),
-                        fontWeight = FontWeight.ExtraBold,
+                        fontFamily = Grotesk, fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        lineHeight = 21.sp //separación entre las lineas
                     )
                 }
-                Text("Pronostica los partidos de cada jornada \ny compite con tu clase \n¿Quien acertará más?",
-                    color = Color(0xFFdfe6df),
-                    fontFamily = Grotesk, fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    lineHeight = 21.sp //separación entre las lineas
-                )
-            }
-            Card(Modifier
-                .width(350.dp)
-                .height(290.dp)
-                .padding(top = 10.dp),
-                shape = RoundedCornerShape(20.dp) //redondear el card
+                Card(
+                    Modifier
+                        .width(350.dp)
+                        .height(290.dp)
+                        .padding(top = 10.dp),
+                    shape = RoundedCornerShape(20.dp) //redondear el card
 
-            ) {
-                Column(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp, vertical = 20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(modifier = Modifier
-                        .padding(bottom = 15.dp)
-                        .fillMaxWidth()
-                        .height(75.dp)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 20.dp, vertical = 20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("TU ALIAS",
-                            fontFamily = Grotesk,
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 16.sp
-                        )
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .border(width = 2.dp, color = Color(0x396A6F7C), shape =RoundedCornerShape(10.dp))
-                            .padding(horizontal = 12.dp),
-                            horizontalArrangement = Arrangement.spacedBy(20.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                        Column(
+                            modifier = Modifier
+                                .padding(bottom = 15.dp)
+                                .fillMaxWidth()
+                                .height(75.dp)
                         ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_person),
-                                contentDescription = null,
-                                modifier = Modifier.size(30.dp)
-                            )
-                            Text("Escribe tu nombre o alias",
+                            Text(
+                                "TU ALIAS",
                                 fontFamily = Grotesk,
-                                fontWeight = FontWeight.SemiBold
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 16.sp
                             )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                                    .border(
+                                        width = 2.dp,
+                                        color = Color(0x396A6F7C),
+                                        shape = RoundedCornerShape(10.dp)
+                                    )
+                                    .padding(horizontal = 12.dp),
+                                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_person),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(30.dp)
+                                )
+                                Text(
+                                    "Escribe tu nombre o alias",
+                                    fontFamily = Grotesk,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
                         }
-                    }
-                    Column(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(75.dp)
-                    ) {
-                        Text("CÓDIGO DEL GRUPO",
-                            fontFamily = Grotesk,
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 16.sp
-                        )
-
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .border(width = 2.dp, color = Color(0x396A6F7C), shape =RoundedCornerShape(10.dp))
-                            .padding(horizontal = 12.dp),
-                            horizontalArrangement = Arrangement.spacedBy(20.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(75.dp)
                         ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_group),
-                                contentDescription = null,
-                                modifier = Modifier.size(30.dp)
-                            )
-                            Text("p. ej. 1A - DAM - 2026",
+                            Text(
+                                "CÓDIGO DEL GRUPO",
                                 fontFamily = Grotesk,
-                                fontWeight = FontWeight.SemiBold
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 16.sp
                             )
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                                    .border(
+                                        width = 2.dp,
+                                        color = Color(0x396A6F7C),
+                                        shape = RoundedCornerShape(10.dp)
+                                    )
+                                    .padding(horizontal = 12.dp),
+                                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_group),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(30.dp)
+                                )
+                                Text(
+                                    "p. ej. 1A - DAM - 2026",
+                                    fontFamily = Grotesk,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
                         }
-                    }
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Black
-                        ),
-                        modifier = Modifier.padding(top = 20.dp).height(60.dp).fillMaxWidth(),
+                        Button(
+                            onClick = {},
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.Black
+                            ),
+                            modifier = Modifier.padding(top = 20.dp).height(60.dp).fillMaxWidth(),
 
-                        ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text("Entrar en la porra",
-                                fontFamily = Grotesk,
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 18.sp,
-                                color = Color.White,
-                                modifier = Modifier.padding(horizontal = 10.dp)
-                            )
-                            Icon(
-                                painter = painterResource(R.drawable.ic_flecha),
-                                contentDescription = null,
-                                modifier = Modifier.size(30.dp),
-                                tint = Color.White
-                            )
+                            ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    "Entrar en la porra",
+                                    fontFamily = Grotesk,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 18.sp,
+                                    color = Color.White,
+                                    modifier = Modifier.padding(horizontal = 10.dp)
+                                )
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_flecha),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(30.dp),
+                                    tint = Color.White
+                                )
+                            }
                         }
                     }
                 }
