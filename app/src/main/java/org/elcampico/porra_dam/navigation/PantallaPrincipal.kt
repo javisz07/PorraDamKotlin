@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import org.elcampico.porra_dam.screens.Clasificacion
 import org.elcampico.porra_dam.screens.Jornada
 import org.elcampico.porra_dam.screens.PantallaBienvenida
 import org.elcampico.porra_dam.screens.Resultados
@@ -50,7 +51,7 @@ fun PantallaPrincipal(alias: String, modifier: Modifier = Modifier){
             when(pestana){
                 Pestanas.JORNADA -> Jornada(modifier = Modifier.padding(paddingValues)) // Muestra la pantalla Jornada.kt
                 Pestanas.RESULTADOS -> Resultados()
-                Pestanas.CLASIFICACION -> {}
+                Pestanas.CLASIFICACION -> Clasificacion()
             }
         }
     }
