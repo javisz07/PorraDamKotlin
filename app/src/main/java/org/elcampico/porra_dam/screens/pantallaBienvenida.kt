@@ -19,7 +19,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,8 +39,12 @@ import org.elcampico.porra_dam.ui.theme.Grotesk
 
 @Composable
 fun PantallaBienvenida(
+    onEntrar: (alias: String) -> Unit,
     modifier: Modifier = Modifier,
+
 ) {
+    var aliasTexto by remember { mutableStateOf("") }
+    var codigoTexto by remember { mutableStateOf("") }
     FondoPantalla(Modifier.fillMaxSize()) {
         Box() {
             Column(
@@ -72,7 +82,7 @@ fun PantallaBienvenida(
                 Card(
                     Modifier
                         .width(350.dp)
-                        .height(290.dp)
+                        .height(320.dp)
                         .padding(top = 10.dp),
                     shape = RoundedCornerShape(20.dp) //redondear el card
 
@@ -113,11 +123,27 @@ fun PantallaBienvenida(
                                     contentDescription = null,
                                     modifier = Modifier.size(30.dp)
                                 )
-                                Text(
-                                    "Escribe tu nombre o alias",
-                                    fontFamily = Grotesk,
-                                    fontWeight = FontWeight.SemiBold
+                                TextField(
+                                    value = aliasTexto,
+                                    onValueChange = { aliasTexto = it }, // Esto actualiza tu variable cuando escriben
+                                    placeholder = {
+                                        Text(
+                                            "Escribe tu nombre o alias",
+                                            fontFamily = Grotesk,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = Color.Gray
+                                        )
+                                    },
+                                    colors = TextFieldDefaults.colors(
+                                        focusedContainerColor = Color.Transparent,
+                                        unfocusedContainerColor = Color.Transparent,
+                                        disabledContainerColor = Color.Transparent,
+                                        focusedIndicatorColor = Color.Transparent,
+                                        unfocusedIndicatorColor = Color.Transparent
+                                    ),
+                                    modifier = Modifier.fillMaxWidth()
                                 )
+
                             }
                         }
                         Column(
@@ -158,7 +184,7 @@ fun PantallaBienvenida(
                             }
                         }
                         Button(
-                            onClick = {},
+                            onClick = { onEntrar(aliasTexto)},
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color.Black
                             ),
