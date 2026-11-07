@@ -162,7 +162,7 @@ fun Jornada(modifier: Modifier = Modifier){
                             containerColor = Color.Black
                         ),
                         modifier = Modifier
-                            .padding(vertical = 20.dp, horizontal = 20.dp)
+                            .padding(vertical = 15.dp, horizontal = 20.dp)
                             .height(50.dp)
                             .fillMaxWidth(),
 
@@ -194,7 +194,7 @@ fun _Partidos(escudoLocal: Int, nombreLocal: String, escudVisitante: Int, nombre
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(130.dp)
-        .padding(top = 14.dp)
+        .padding(top = 8.dp, bottom = 8.dp)
         .padding(horizontal = 12.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFF5F5F5) // <-- Así se da color a un Card
