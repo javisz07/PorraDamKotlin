@@ -47,7 +47,8 @@ fun PantallaPrincipal(alias: String, modifier: Modifier = Modifier){
         paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when(pestana){
-                Pestanas.JORNADA -> Jornada() // Muestra la pantalla Jornada.kt
+                Pestanas.JORNADA -> Jornada(modifier = Modifier.padding(paddingValues)) // Muestra la pantalla Jornada.kt
+                Pestanas.RESULTADOS -> {}
                 Pestanas.CLASIFICACION -> {}
             }
         }

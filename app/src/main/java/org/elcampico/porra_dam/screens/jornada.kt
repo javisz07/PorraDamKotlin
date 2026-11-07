@@ -2,6 +2,7 @@ package org.elcampico.porra_dam.screens
 
 
 import android.media.Image
+import android.widget.ListView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -48,7 +50,7 @@ import org.w3c.dom.Text
 fun Jornada(modifier: Modifier = Modifier){
     FondoPantalla(modifier = modifier) {
         Column(modifier = Modifier
-            .padding(vertical = 15.dp, horizontal = 0.dp)
+            .padding(top = 15.dp)
             .fillMaxSize()) {
             Row(modifier = Modifier
                 .fillMaxWidth()
@@ -144,17 +146,25 @@ fun Jornada(modifier: Modifier = Modifier){
                 )
 
             ){
-                Column() {
-                    _Partidos(escudoLocal = R.drawable.real_madrid, nombreLocal = "Real Madrid", escudVisitante = R.drawable.atletico_madrid, nombreVisitante = "Atlético de Madrid")
-                    _Partidos(escudoLocal = R.drawable.real_madrid, nombreLocal = "Real Madrid", escudVisitante = R.drawable.atletico_madrid, nombreVisitante = "Atlético de Madrid")
-                    _Partidos(escudoLocal = R.drawable.real_madrid, nombreLocal = "Real Madrid", escudVisitante = R.drawable.atletico_madrid, nombreVisitante = "Atlético de Madrid")
-                    _Partidos(escudoLocal = R.drawable.real_madrid, nombreLocal = "Real Madrid", escudVisitante = R.drawable.atletico_madrid, nombreVisitante = "Atlético de Madrid")
+                Column(modifier = Modifier.fillMaxSize()) {
+                    LazyColumn(modifier = Modifier.weight(1f)) {
+                        item {
+                            _Partidos(escudoLocal = R.drawable.real_madrid, nombreLocal = "Real Madrid", escudVisitante = R.drawable.atletico_madrid, nombreVisitante = "Atlético de Madrid")
+                            _Partidos(escudoLocal = R.drawable.real_madrid, nombreLocal = "Real Madrid", escudVisitante = R.drawable.atletico_madrid, nombreVisitante = "Atlético de Madrid")
+                            _Partidos(escudoLocal = R.drawable.real_madrid, nombreLocal = "Real Madrid", escudVisitante = R.drawable.atletico_madrid, nombreVisitante = "Atlético de Madrid")
+                            _Partidos(escudoLocal = R.drawable.real_madrid, nombreLocal = "Real Madrid", escudVisitante = R.drawable.atletico_madrid, nombreVisitante = "Atlético de Madrid")
+                        }
+                    }
+
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Black
                         ),
-                        modifier = Modifier.padding(vertical = 20.dp, horizontal = 20.dp).height(50.dp).fillMaxWidth(),
+                        modifier = Modifier
+                            .padding(vertical = 20.dp, horizontal = 20.dp)
+                            .height(50.dp)
+                            .fillMaxWidth(),
 
                         ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -209,7 +219,7 @@ fun _Partidos(escudoLocal: Int, nombreLocal: String, escudVisitante: Int, nombre
                         contentScale = ContentScale.Crop
                     )
 
-                    Text("Real Madrid",
+                    Text(nombreLocal,
                         fontFamily = Grotesk,
                         fontWeight = FontWeight.W600,
                         letterSpacing = (0).sp
@@ -270,7 +280,7 @@ fun _Partidos(escudoLocal: Int, nombreLocal: String, escudVisitante: Int, nombre
                         contentScale = ContentScale.Crop
                     )
 
-                    Text("$nombreVisitante",
+                    Text(nombreVisitante,
                         fontFamily = Grotesk,
                         fontWeight = FontWeight.W600,
                         letterSpacing = (0).sp
