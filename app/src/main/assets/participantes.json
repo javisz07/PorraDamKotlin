@@ -1,0 +1,17 @@
+[
+  {
+    "id": "u1",
+    "nombre": "Javier F",
+    "puntos": { "1": 28 }
+  },
+  {
+    "id": "u2",
+    "nombre": "Gonzalo",
+    "puntos": { "1": 24 }
+  },
+  {
+    "id": "u3",
+    "nombre": "Cristian",
+    "puntos": { "1": 16 }
+  }
+]

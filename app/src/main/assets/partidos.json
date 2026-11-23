@@ -1,0 +1,65 @@
+[
+  {
+    "id": "p1",
+    "jornada": 1,
+    "local": "Atlético de Madrid",
+    "visitante": "Real Madrid",
+    "escudoLocal": "atletico_madrid",
+    "escudoVisitante": "real_madrid",
+    "golesLocal": 2,
+    "golesVisitante": 1
+  },
+  {
+    "id": "p2",
+    "jornada": 1,
+    "local": "Atlético de Madrid",
+    "visitante": "Real Madrid",
+    "escudoLocal": "atletico_madrid",
+    "escudoVisitante": "real_madrid",
+    "golesLocal": 3,
+    "golesVisitante": 0
+  },
+  {
+    "id": "p3",
+    "jornada": 1,
+    "local": "Atlético de Madrid",
+    "visitante": "Real Madrid",
+    "escudoLocal": "atletico_madrid",
+    "escudoVisitante": "real_madrid",
+    "golesLocal": 2,
+    "golesVisitante": 1
+  },
+  {
+    "id": "p4",
+    "jornada": 1,
+    "local": "Real Madrid",
+    "visitante": "Atlético de Madrid",
+    "escudoLocal": "real_madrid",
+    "escudoVisitante": "atletico_madrid",
+    "golesLocal": 1,
+    "golesVisitante": 1
+  },
+  {
+    "id": "p5",
+    "jornada": 2,
+    "local": "Real Madrid",
+    "visitante": "Atlético de Madrid",
+    "escudoLocal": "real_madrid",
+    "escudoVisitante": "atletico_madrid"
+  },
+  {
+    "id": "p6", "jornada": 2,
+    "local": "Atlético de Madrid",
+    "visitante": "Real Madrid",
+    "escudoLocal": "atletico_madrid",
+    "escudoVisitante": "real_madrid"
+  },
+  {
+    "id": "p7",
+    "jornada": 2,
+    "local": "Real Madrid",
+    "visitante": "Atlético de Madrid",
+    "escudoLocal": "real_madrid",
+    "escudoVisitante": "atletico_madrid"
+  }
+]

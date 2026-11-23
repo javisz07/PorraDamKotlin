@@ -1,0 +1,22 @@
+[
+  {
+    "partidoId": "p1",
+    "golesLocal": 2,
+    "golesVisitante": 1
+  },
+  {
+    "partidoId": "p2",
+    "golesLocal": 2,
+    "golesVisitante": 0
+  },
+  {
+    "partidoId": "p3",
+    "golesLocal": 1,
+    "golesVisitante": 1
+  },
+  {
+    "partidoId": "p4",
+    "golesLocal": 1,
+    "golesVisitante": 1
+  }
+]
