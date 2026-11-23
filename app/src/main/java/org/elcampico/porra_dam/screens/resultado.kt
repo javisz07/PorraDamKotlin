@@ -3,6 +3,7 @@ package org.elcampico.porra_dam.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,15 +16,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,57 +41,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.elcampico.porra_dam.R
+import org.elcampico.porra_dam.data.Escudos
+import org.elcampico.porra_dam.data.model.FilaResultado
+import org.elcampico.porra_dam.data.model.TipoAcierto
+import org.elcampico.porra_dam.ui.components.CabeceraPorra
+import org.elcampico.porra_dam.ui.components.FiltroAcierto
 import org.elcampico.porra_dam.ui.components.FondoPantalla
 import org.elcampico.porra_dam.ui.theme.Grotesk
+import org.elcampico.porra_dam.viewmodel.PorraViewModel
 
 @Composable
-fun Resultados(modifier: Modifier = Modifier) {
+fun Resultados(vm: PorraViewModel, modifier: Modifier = Modifier) {
+    var menuAbierto by remember { mutableStateOf(false) }
+    val jornada = vm.jornadaResultados
+
     FondoPantalla(modifier = modifier) {
         Column(
             modifier = Modifier
                 .padding(top = 15.dp)
                 .fillMaxSize()
         ) {
-            // Cabecera superior
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_menu),
-                    contentDescription = null,
-                    modifier = Modifier.size(30.dp),
-                    tint = Color.White
-                )
-
-                Text(
-                    "Porra DAM",
-                    fontSize = 30.sp,
-                    fontFamily = Grotesk,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Card(
-                    modifier = Modifier
-                        .height(28.dp)
-                        .width(60.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFc7ead6)
-                    )
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Text("38 ", fontWeight = FontWeight.Bold, color = Color.White)
-                        Text("pts", fontWeight = FontWeight.Bold, color = Color(0xFF3A9D08))
-                    }
-                }
-            }
+            CabeceraPorra(puntos = vm.puntosTotales)
 
             Card(
                 modifier = Modifier
@@ -91,9 +69,7 @@ fun Resultados(modifier: Modifier = Modifier) {
                     .weight(1f)
                     .padding(top = 15.dp),
                 shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFFF8F9FA)
-                )
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F9FA))
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Row(
@@ -103,31 +79,43 @@ fun Resultados(modifier: Modifier = Modifier) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            "Resultados",
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = Grotesk
-                        )
+                        Text("Resultados", fontSize = 24.sp, fontWeight = FontWeight.Bold, fontFamily = Grotesk)
 
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(8.dp))
-                                .padding(horizontal = 12.dp, vertical = 6.dp)
-                        ) {
-                            Text(
-                                "Jornada 1",
-                                fontSize = 14.sp,
-                                fontFamily = Grotesk,
-                                color = Color.DarkGray
-                            )
-                            Icon(
-                                painter = painterResource(R.drawable.ic_bajar),
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp).padding(start = 4.dp),
-                                tint = Color.DarkGray
-                            )
+                        // Selector de jornada (solo jornadas ya jugadas)
+                        Box {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(8.dp))
+                                    .clickable { menuAbierto = true }
+                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                            ) {
+                                Text(
+                                    if (jornada != null) "Jornada $jornada" else "Sin jornadas",
+                                    fontSize = 14.sp,
+                                    fontFamily = Grotesk,
+                                    color = Color.DarkGray
+                                )
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_bajar),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(16.dp)
+                                        .padding(start = 4.dp),
+                                    tint = Color.DarkGray
+                                )
+                            }
+                            DropdownMenu(expanded = menuAbierto, onDismissRequest = { menuAbierto = false }) {
+                                vm.jornadasJugadas.forEach { n ->
+                                    DropdownMenuItem(
+                                        text = { Text("Jornada $n") },
+                                        onClick = {
+                                            vm.elegirJornada(n)
+                                            menuAbierto = false
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
 
@@ -136,63 +124,20 @@ fun Resultados(modifier: Modifier = Modifier) {
                         fontSize = 14.sp,
                         fontFamily = Grotesk,
                         color = Color.Gray,
-                        modifier = Modifier.padding(top = 4.dp, bottom = 16.dp).padding(horizontal = 24.dp)
+                        modifier = Modifier
+                            .padding(top = 4.dp, bottom = 8.dp)
+                            .padding(horizontal = 24.dp)
+                    )
+
+                    FiltroAcierto(
+                        filtro = vm.filtroAcierto,
+                        onFiltro = vm::filtrarAcierto,
+                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp)
                     )
 
                     LazyColumn(modifier = Modifier.weight(1f)) {
-                        item {
-                            _ResultadoFila(
-                                escudoLocal = R.drawable.atletico_madrid, nombreLocal = "Atlético Madrid", golesLocal = 2,
-                                escudoVisitante = R.drawable.real_madrid, nombreVisitante = "Real Madrid", golesVisitante = 1,
-                                porraLocal = 2, porraVisitante = 1,
-                                puntosTexto = "+8",
-                                colorFondo = Color(0xFFE6F4EA),
-                                colorTexto = Color(0xFF1E8E3E)
-                            )
-
-                            _ResultadoFila(
-                                escudoLocal = R.drawable.atletico_madrid, nombreLocal = "Atlético Madrid", golesLocal = 3,
-                                escudoVisitante = R.drawable.real_madrid, nombreVisitante = "Real Madrid", golesVisitante = 0,
-                                porraLocal = 2, porraVisitante = 0,
-                                puntosTexto = "+4",
-                                colorFondo = Color(0xFFF1F3F4),
-                                colorTexto = Color(0xFF5F6368)
-                            )
-
-                            _ResultadoFila(
-                                escudoLocal = R.drawable.atletico_madrid, nombreLocal = "Atlético Madrid", golesLocal = 2,
-                                escudoVisitante = R.drawable.real_madrid, nombreVisitante = "Real Madrid", golesVisitante = 1,
-                                porraLocal = 1, porraVisitante = 1,
-                                puntosTexto = "0",
-                                colorFondo = Color(0xFFFCE8E6),
-                                colorTexto = Color(0xFFD93025)
-                            )
-                            _ResultadoFila(
-                                escudoLocal = R.drawable.atletico_madrid, nombreLocal = "Atlético Madrid", golesLocal = 2,
-                                escudoVisitante = R.drawable.real_madrid, nombreVisitante = "Real Madrid", golesVisitante = 1,
-                                porraLocal = 2, porraVisitante = 1,
-                                puntosTexto = "+8",
-                                colorFondo = Color(0xFFE6F4EA),
-                                colorTexto = Color(0xFF1E8E3E)
-                            )
-
-                            _ResultadoFila(
-                                escudoLocal = R.drawable.atletico_madrid, nombreLocal = "Atlético Madrid", golesLocal = 3,
-                                escudoVisitante = R.drawable.real_madrid, nombreVisitante = "Real Madrid", golesVisitante = 0,
-                                porraLocal = 2, porraVisitante = 0,
-                                puntosTexto = "+4",
-                                colorFondo = Color(0xFFF1F3F4),
-                                colorTexto = Color(0xFF5F6368)
-                            )
-
-                            _ResultadoFila(
-                                escudoLocal = R.drawable.atletico_madrid, nombreLocal = "Atlético Madrid", golesLocal = 2,
-                                escudoVisitante = R.drawable.real_madrid, nombreVisitante = "Real Madrid", golesVisitante = 1,
-                                porraLocal = 1, porraVisitante = 1,
-                                puntosTexto = "0",
-                                colorFondo = Color(0xFFFCE8E6),
-                                colorTexto = Color(0xFFD93025)
-                            )
+                        items(vm.filasResultados, key = { it.partido.id }) { fila ->
+                            _ResultadoFila(fila)
                         }
                     }
 
@@ -226,7 +171,7 @@ fun Resultados(modifier: Modifier = Modifier) {
                                 )
                             }
                             Text(
-                                "+22 pts",
+                                "+${vm.puntosPorJornada[jornada] ?: 0} pts",
                                 fontSize = 22.sp,
                                 fontFamily = Grotesk,
                                 fontWeight = FontWeight.Bold,
@@ -241,17 +186,19 @@ fun Resultados(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun _ResultadoFila(
-    escudoLocal: Int, nombreLocal: String, golesLocal: Int,
-    escudoVisitante: Int, nombreVisitante: String, golesVisitante: Int,
-    porraLocal: Int, porraVisitante: Int,
-    puntosTexto: String,
-    colorFondo: Color,
-    colorTexto: Color
-) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 24.dp)
+fun _ResultadoFila(fila: FilaResultado) {
+    val partido = fila.partido
+    val (colorFondo, colorTexto) = when (fila.acierto) {
+        TipoAcierto.EXACTO -> Color(0xFFE6F4EA) to Color(0xFF1E8E3E)
+        TipoAcierto.SIGNO -> Color(0xFFF1F3F4) to Color(0xFF5F6368)
+        TipoAcierto.FALLO -> Color(0xFFFCE8E6) to Color(0xFFD93025)
+    }
+    val puntosTexto = if (fila.acierto.puntos > 0) "+${fila.acierto.puntos}" else "0"
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
     ) {
         Row(
             modifier = Modifier
@@ -259,54 +206,10 @@ fun _ResultadoFila(
                 .padding(vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             Column(modifier = Modifier.weight(1f)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(escudoLocal),
-                        contentDescription = null,
-                        modifier = Modifier.size(30.dp),
-                        contentScale = ContentScale.Fit
-                    )
-                    Text(
-                        nombreLocal,
-                        fontFamily = Grotesk,
-                        fontSize = 14.sp,
-                        modifier = Modifier.weight(1f).padding(start = 12.dp)
-                    )
-                    Text(
-                        golesLocal.toString(),
-                        fontFamily = Grotesk,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(end = 16.dp)
-                    )
-                }
-
+                _LineaEquipo(partido.escudoLocal, partido.local, partido.golesLocal ?: 0)
                 Spacer(modifier = Modifier.height(8.dp))
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(escudoVisitante),
-                        contentDescription = null,
-                        modifier = Modifier.size(30.dp),
-                        contentScale = ContentScale.Fit
-                    )
-                    Text(
-                        nombreVisitante,
-                        fontFamily = Grotesk,
-                        fontSize = 14.sp,
-                        modifier = Modifier.weight(1f).padding(start = 12.dp)
-                    )
-                    Text(
-                        golesVisitante.toString(),
-                        fontFamily = Grotesk,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(end = 16.dp)
-                    )
-                }
-
+                _LineaEquipo(partido.escudoVisitante, partido.visitante, partido.golesVisitante ?: 0)
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Box(
@@ -316,7 +219,7 @@ fun _ResultadoFila(
                         .padding(horizontal = 8.dp, vertical = 2.dp)
                 ) {
                     Text(
-                        "Tu porra: $porraLocal - $porraVisitante", // CORREGIDO el salto de línea roto
+                        "Tu porra: ${fila.pronostico.golesLocal} - ${fila.pronostico.golesVisitante}",
                         fontFamily = Grotesk,
                         fontSize = 11.sp,
                         color = colorTexto,
@@ -340,6 +243,33 @@ fun _ResultadoFila(
                 )
             }
         }
-        Divider(color = Color(0xFFE0E0E0), thickness = 1.dp) // barritas
+        HorizontalDivider(thickness = 1.dp, color = Color(0xFFE0E0E0))
+    }
+}
+
+@Composable
+private fun _LineaEquipo(escudo: String, nombre: String, goles: Int) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Image(
+            painter = painterResource(Escudos.id(escudo)),
+            contentDescription = null,
+            modifier = Modifier.size(30.dp),
+            contentScale = ContentScale.Fit
+        )
+        Text(
+            nombre,
+            fontFamily = Grotesk,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 12.dp)
+        )
+        Text(
+            goles.toString(),
+            fontFamily = Grotesk,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(end = 16.dp)
+        )
     }
 }
